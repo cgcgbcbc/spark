@@ -1,0 +1,15 @@
+master:
+  hostname: master
+  image: cgcgbcbc/spark
+
+slave:
+  links:
+  - master
+  image: cgcgbcbc/spark
+  command: /worker.sh
+
+shell:
+  links:
+  - master
+  image: cgcgbcbc/spark
+  command: /spark/bin/spark-shell --master spark://master:7077
