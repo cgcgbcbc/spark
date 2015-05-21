@@ -1,15 +1,29 @@
-master:
-  hostname: master
+base:
   image: cgcgbcbc/spark
+  dns_search: node.lab.mu
+  restart: always
+master:
+  extends:
+    file: docker-compose.yml
+    service: base
+  hostname: master-spark.node.lab.mu
+  environment:
+    SERVICE_NAME: master-spark
+    SERVICE_TAGS: spark,master
 
 slave:
-  links:
-  - master
-  image: cgcgbcbc/spark
+  extends:
+    file: docker-compose.yml
+    service: base
+  hostname: .node.lab.mu
+  environment:
+    master: master-spark.node.lab.mu
+    SERVICE_NAME: slave-spark
+    SERVICE_TAGS: spark,slave
   command: /worker.sh
 
 shell:
-  links:
-  - master
-  image: cgcgbcbc/spark
-  command: /spark/bin/spark-shell --master spark://master:7077
+  extends:
+    file: docker-compose.yml
+    service: base
+  command: /spark/bin/spark-shell --master spark://master-spark:7077
