@@ -1,12 +1,8 @@
 FROM williamyeh/scala:2.10.4
 
-ADD http://www.apache.org/dyn/closer.cgi/spark/spark-1.3.1/spark-1.3.1-bin-hadoop2.6.tgz /
+ADD http://d3kbcqa49mib13.cloudfront.net/spark-1.3.1-bin-hadoop2.6.tgz /
 
-RUN mv spark-1.3.1-bin-hadoop2.6.tgz /spark-1.3.1-bin-hadoop2.6.tgz
-
-WORKDIR /
-
-RUN tar -xvzf spark-1.3.1-bin-hadoop2.6.tgz
+RUN tar -xzf spark-1.3.1-bin-hadoop2.6.tgz
 
 RUN mv spark-1.3.1-bin-hadoop2.6 spark
 
