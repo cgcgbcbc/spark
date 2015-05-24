@@ -1,3 +1,4 @@
+{{$MasterName := or .MasterName "master-spark"}}
 base:
   image: cgcgbcbc/spark
   dns_search: {{.Domain}}
@@ -6,9 +7,9 @@ master:
   extends:
     file: docker-compose.yml
     service: base
-  hostname: {{with .MasterName}}{{.}}{{else}}master-spark{{end}}.{{.Domain}}
+  hostname: {{$MasterName}}.{{.Domain}}
   environment:
-    SERVICE_NAME: {{with .MasterName}}{{.}}{{else}}master-spark{{end}}
+    SERVICE_NAME: {{$MasterName}}
     SERVICE_TAGS: spark,master
 
 slave:
@@ -17,7 +18,7 @@ slave:
     service: base
   hostname: .{{.Domain}}
   environment:
-    master: {{with .MasterName}}{{.}}{{else}}master-spark{{end}}.{{.Domain}}
+    master: {{$MasterName}}.{{.Domain}}
     SERVICE_NAME: slave-spark
     SERVICE_TAGS: spark,slave
   command: /worker.sh
@@ -26,4 +27,4 @@ shell:
   extends:
     file: docker-compose.yml
     service: base
-  command: /spark/bin/spark-shell --master spark://{{with .MasterName}}{{.}}{{else}}master-spark{{end}}.{{.Domain}}:7077
+  command: /spark/bin/spark-shell --master spark://{{$MasterName}}.{{.Domain}}:7077
