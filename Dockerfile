@@ -27,6 +27,8 @@ RUN update-alternatives --set libblas.so.3 \
 RUN update-alternatives --set liblapack.so.3 \
     /usr/lib/atlas-base/atlas/liblapack.so.3
 
+RUN apt-get install python-pip -y
+
 RUN pip install -U scikit-learn
 
 CMD ["/entrypoint.sh"]
