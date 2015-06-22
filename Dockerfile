@@ -31,4 +31,6 @@ RUN apt-get install python-pip -y
 
 RUN pip install -U scikit-learn
 
+RUN apt-get install libgfortran3 -y
+
 CMD ["/entrypoint.sh"]
